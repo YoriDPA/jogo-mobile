@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,11 +10,15 @@
 </head>
 <body>
   <canvas id="game" aria-label="Jogo estilo Flappy Bird para celular"></canvas>
+
+  <!-- HUD -->
   <div id="hud" role="status" aria-live="polite">
     <span>Pontos: <strong id="score">0</strong></span>
     <span> • Recorde: <strong id="best">0</strong></span>
   </div>
+
   <div id="toast" hidden>Toque para bater as asas • Toque após “Game Over” para reiniciar</div>
+
   <script src="game.js"></script>
 </body>
 </html>
