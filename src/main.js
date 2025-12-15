@@ -10,6 +10,31 @@ const uiLayer = document.getElementById('ui-layer');
 
 const game = new Game();
 
+// Mobile Dash Button Logic
+const dashBtn = document.getElementById('mobile-dash-btn');
+if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    dashBtn.classList.remove('hidden');
+
+    dashBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // prevent mouse emulation
+        game.input.setDash(true);
+    });
+
+    dashBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        game.input.setDash(false);
+    });
+
+    // Also mouse events for testing on desktop if needed
+    dashBtn.addEventListener('mousedown', (e) => {
+        e.stopPropagation(); // Don't propagate to window
+        game.input.setDash(true);
+    });
+    dashBtn.addEventListener('mouseup', () => {
+        game.input.setDash(false);
+    });
+}
+
 playBtn.addEventListener('click', () => {
     const name = nameInput.value || 'Player';
     startGame(name);

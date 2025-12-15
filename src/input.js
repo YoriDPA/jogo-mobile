@@ -24,14 +24,6 @@ export class Input {
                 this.mouseY = e.touches[0].clientY;
             }
         });
-
-        window.addEventListener('touchstart', () => {
-            this.mouseDown = true;
-        });
-
-        window.addEventListener('touchend', () => {
-            this.mouseDown = false;
-        });
     }
 
     getMousePosition() {
@@ -40,5 +32,9 @@ export class Input {
 
     isMouseDown() {
         return this.mouseDown;
+    }
+
+    setDash(state) {
+        this.mouseDown = state;
     }
 }
