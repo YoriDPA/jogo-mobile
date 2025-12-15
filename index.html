@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake.io Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#00ff88">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+
+        <div id="ui-layer">
+            <div id="start-screen" class="screen active">
+                <h1 class="neon-text">SNAKE.IO</h1>
+                <div class="input-group">
+                    <input type="text" id="player-name" placeholder="Seu Nome" maxlength="12">
+                    <button id="play-btn" class="neon-btn">JOGAR</button>
+                    <button id="install-btn" class="neon-btn hidden"
+                        style="margin-top: 10px; font-size: 1rem; padding: 0.5rem 1.5rem;">INSTALAR APP</button>
+                </div>
+            </div>
+
+            <div id="game-over-screen" class="screen hidden">
+                <h2 class="neon-text">GAME OVER</h2>
+                <p>Pontuação: <span id="final-score">0</span></p>
+                <button id="restart-btn" class="neon-btn">JOGAR NOVAMENTE</button>
+            </div>
+
+            <div id="hud" class="hidden">
+                <div class="score-container">Score: <span id="score">0</span></div>
+                <div class="leaderboard">
+                    <h3>Líderes</h3>
+                    <ul id="leaderboard-list">
+                        <!-- Items populated by JS -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="src/main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.log('SW Registration Failed', err));
+        }
+
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            deferredPrompt = null;
+            installBtn.classList.add('hidden');
+        });
+    </script>
+</body>
+
+</html>
